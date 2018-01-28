@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         console.log('createMessage', message); // message variable is data supplied from client
         //io will send off data to all clients not just one connected to a particular client
         io.emit('newMessage', generateMessage(message.from, message.text));
-        callback('This is from the server');
+        callback();
         // Send event to all sockets except for this one
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
