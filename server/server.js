@@ -5,7 +5,7 @@ const http = require('http'); // Loading HTTP Server Library
 var port = 3000;
 const express = require('express'); // Loading Node server Library
 const socketIO = require('socket.io'); // Loading Socket IO Library
-
+const {generateMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public'); // Concatenating Path to index.html page
 
 var port = process.env.PORT || 3000; // Assigning and configuring port variable
@@ -20,28 +20,16 @@ io.on('connection', (socket) => {
     console.log('New user connected');
     
     // socket.emit to user who enjoyed from: Admin text: Welcome to the chat app
-    socket.emit('newMessage', {
-        from: 'Admin',
-        text: 'Welcome to the chat app',
-        createdAt: new Date().getTime() 
-    });
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
     // socket.broadcast.emit to all users already in chat room that new user had joined
-    socket.broadcast.emit('newMessage', {
-        from: 'Admin',
-        text: 'A new user has joined the chat',
-        createdAt: new Date().getTime()
-    });
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
     
     // message variable is data supplied from client
     socket.on('createMessage', (message) => {
         console.log('createMessage', message); // message variable is data supplied from client
         //io will send off data to all clients not just one connected to a particular client
-        io.emit('newMessage', {
-            from: message.from,
-            text: message.text,
-            createdAt: new Date().getTime()
-        });
+        io.emit('newMessage', generateMessage(message.from, message.text));
         
         // Send event to all sockets except for this one
         // socket.broadcast.emit('newMessage', {
