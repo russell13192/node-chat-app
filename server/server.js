@@ -19,16 +19,15 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
     
-    // Emitting custon event "newEmail" sending object 
-    socket.emit('newMessage', {
-        from: 'John',
-        text: 'I need to get laid',
-        createdAt: 123123
-    });
-
+    // message variable is data supplied from client
     socket.on('createMessage', (message) => {
         console.log('createMessage', message); // message variable is data supplied from client
-        
+        // io will send off data to all clients not just one connected to a particular client
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
     });
 
     // Listening for client-server disconnection
