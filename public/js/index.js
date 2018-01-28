@@ -21,6 +21,15 @@ socket.on('newMessage', function (message) {
     jQuery('#messages').append(li);
 });
 
+socket.on('newLocationMessage', function (message) {
+    var li = jQuery('<li></li>');
+    var a = jQuery('<a target="_blank">My current location</a>');
+
+    li.text(`${message.from}: `);
+    a.attr('href', message.url);
+    li.append(a);
+    jQuery('#messages').append(li);
+});
 
 // Using jQuery to create custom event when message form is submitted
 jQuery('#message-form').on('submit', function (e) {
@@ -31,5 +40,26 @@ jQuery('#message-form').on('submit', function (e) {
         text: jQuery('[name=message]').val() // Using jQuery to target input field with name attribute set to message
     }, function () {
 
+    });
+});
+
+// Target button with id of "send-location"
+var locationButton = jQuery('#send-location');
+// Applying listener for on click event for accessing client location 
+locationButton.on('click', function () {
+    // If browser does not support geolocation library
+    if (!navigator.geolocation) {
+        return alert('Geolocation not supported by your browser')
+    }
+    // If client aggress to share location and browser supports geolocation api, retrieval execute "navigator.geolocation.getCurrentPosition" call
+    navigator.geolocation.getCurrentPosition(function (position) {
+        // send client's position to server by extracting attributes from the JSON data
+        socket.emit('createLocationMessage', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        });
+        
+    }, function () {
+        alert('Unable to fetch location');
     });
 });

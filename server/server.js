@@ -5,7 +5,7 @@ const http = require('http'); // Loading HTTP Server Library
 var port = 3000;
 const express = require('express'); // Loading Node server Library
 const socketIO = require('socket.io'); // Loading Socket IO Library
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public'); // Concatenating Path to index.html page
 
 var port = process.env.PORT || 3000; // Assigning and configuring port variable
@@ -37,6 +37,10 @@ io.on('connection', (socket) => {
         //     text: message.text,
         //     createdAt: new Date().getTime()
         // });
+    });
+
+    socket.on('createLocationMessage', (coords) => {
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
     });
 
     // Listening for client-server disconnection
