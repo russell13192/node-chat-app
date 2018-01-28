@@ -19,15 +19,36 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
     
+    // socket.emit to user who enjoyed from: Admin text: Welcome to the chat app
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'Welcome to the chat app',
+        createdAt: new Date().getTime() 
+    });
+
+    // socket.broadcast.emit to all users already in chat room that new user had joined
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'A new user has joined the chat',
+        createdAt: new Date().getTime()
+    });
+    
     // message variable is data supplied from client
     socket.on('createMessage', (message) => {
         console.log('createMessage', message); // message variable is data supplied from client
-        // io will send off data to all clients not just one connected to a particular client
+        //io will send off data to all clients not just one connected to a particular client
         io.emit('newMessage', {
             from: message.from,
             text: message.text,
             createdAt: new Date().getTime()
         });
+        
+        // Send event to all sockets except for this one
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: new Date().getTime()
+        // });
     });
 
     // Listening for client-server disconnection
