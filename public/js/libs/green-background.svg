@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="1024px" viewBox="0 0 1440 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>BG@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="3.07615888%" y1="4.31351289%" x2="98.9444762%" y2="4.31351289%" id="linearGradient-1">
+            <stop stop-color="#37BEC7" offset="0%"></stop>
+            <stop stop-color="#37BEC7" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-2">
+            <stop stop-color="#2CC57B" offset="0%"></stop>
+            <stop stop-color="#2CC57B" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-(jess)">
+            <g id="BG">
+                <rect id="back-color" fill="#B4F887" x="0" y="0" width="1440" height="1024"></rect>
+                <rect id="left-grade" fill="url(#linearGradient-1)" opacity="0.899999976" x="0" y="0" width="1440" height="1024"></rect>
+                <rect id="btm-grade" fill="url(#linearGradient-2)" opacity="0.899999976" x="0" y="0" width="1440" height="1024"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
