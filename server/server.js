@@ -47,9 +47,13 @@ io.on('connection', (socket) => {
 
     // message variable is data supplied from client
     socket.on('createMessage', (message, callback) => {
-        console.log('createMessage', message); // message variable is data supplied from client
+        var user = users.getUser(socket.id);
+
+        if (user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text)); 
+        }
         //io will send off data to all clients not just one connected to a particular client
-        io.emit('newMessage', generateMessage(message.from, message.text));
+       
         callback();
         // Send event to all sockets except for this one
         // socket.broadcast.emit('newMessage', {
@@ -60,7 +64,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (coords) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
+        
     });
 
     // Listening for client-server disconnection
