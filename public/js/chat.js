@@ -21,13 +21,34 @@ function scrollToBottom () {
 }
 // Listening for client-server connection
 socket.on('connect', function () {
-    console.log('Connected to server');
+    var params = jQuery.deparam(window.location.search);
+    socket.emit('join', params, function (err) {
+        if (err) {
+            alert(err);
+            window.location.href = '/' // If an error is returned send user back to index page
+        }
+        else {
+            console.log('No error');
+            
+        }
+    });
 
 
 });
 // Listening for client-server disconnection - Not a custom event
 socket.on('disconnect', function () {
     console.log('Disconnected from server');
+});
+
+socket.on('updateUserList', function (users) {
+    var ol = jQuery('<ol></ol>');
+
+    users.forEach(function (user) {
+        ol.append(jQuery('<li></li>').text(user));
+    });
+
+    jQuery('#users').html(ol);
+    
 });
 // Listening for newMessage event from server and printing to console
 socket.on('newMessage', function (message) {
