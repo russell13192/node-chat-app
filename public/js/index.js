@@ -2,6 +2,23 @@
 // Description: Client side javascript implementation for chat app
 
 var socket = io(); // Client makes request to server to open up a web socket and keep connection open
+function scrollToBottom () {
+    // Selectors
+    var messages = jQuery('#messages');
+    var newMessage = messages.children('li:last-child');
+    // Heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight =  messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    
+    if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+       messages.scrollTop(scrollHeight);
+        
+    }
+
+}
 // Listening for client-server connection
 socket.on('connect', function () {
     console.log('Connected to server');
@@ -23,7 +40,7 @@ socket.on('newMessage', function (message) {
     });
 
     jQuery('#messages').append(html);
-
+    scrollToBottom();
     
     // var li = jQuery('<li></li>');
     // li.text(`${message.from} ${formattedTime}: ${message.text}`);
@@ -48,6 +65,7 @@ socket.on('newLocationMessage', function (message) {
     // a.attr('href', message.url);
     // li.append(a);
     // jQuery('#messages').append(li);
+    scrollToBottom();
 });
 
 // Using jQuery to create custom event when message form is submitted
